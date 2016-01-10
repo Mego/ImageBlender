@@ -43,7 +43,7 @@ def imageblender(img):
 
 def main(fname):
     bin = pnm_to_bin(open(fname).read().split('\n'))
-    bin = imagemoment(bin)
+    bin = imageblender(bin)
     return bin_to_pnm(bin)
 
 if __name__ == '__main__':
