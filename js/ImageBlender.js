@@ -68,16 +68,16 @@ var bin_to_pnm = function (b) {
 }
 
 var imageblender = function (img) {
-	var h = img.length,
-		w = img[0].length,
-		x = 0,
+	var nimg = new Array() .concat(img);
+	var h = nimg.length,
+		w = nimg[0].length,
 		y = 0;
-	nimg = new Array() .concat(img);
 	while (y < w) {
+		var x = 0;
 		while (x < h) {
 			var i = 0;
 			while (i < 3) {
-				val = Math.floor((img[x][y][i] + img[x][w+~y][i] + img[h+~x][y][i] + img[h+~x][w+~y][i]) / 4);
+				var val = Math.floor((img[x][y][i] + img[x][w+~y][i] + img[h+~x][y][i] + img[h+~x][w+~y][i]) / 4);
 				nimg[x][y][i] = val;
 				nimg[x][w+~y][i] = val;
 				nimg[h+~x][y][i] = val;
@@ -95,15 +95,4 @@ var main = function (content) {
 	b = pnm_to_bin(content.split("\n"));
 	bin = imageblender(b);
 	return bin_to_pnm(bin);
-}
-
-var go = function () {
-	var file = $("input#upload")[0].files[0];
-	var reader = new FileReader();
-	reader.onload = function (e) {
-		var data = reader.result;
-		data = atob(data.replace("data:;base64,", ""));
-		$("textarea#output").text(main(data));
-	}
-	reader.readAsDataURL(file);
 }

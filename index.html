@@ -2,11 +2,16 @@
 <html>
 	<head>
 		<script src="js/jquery-1.11.2.min.js"></script>
-		<script src="js/test.js"></script>
+		<script src="js/ImageBlender.js"></script>
+		<script src="js/main.js"></script>
+		<link rel="stylesheet" href="css/main.css" />
 	</head>
 	<body>
-		<input id="upload" type="file"></input>
-		<textarea disabled id="output"></textarea>
-		<button onclick="go()">Go</button>
+		<div id="cont">
+			<input id="upload" type="file"></input>
+			<button onclick="goBlend()">Go</button>
+			<br>
+		</div>
+		<a id="dl"><button id="dlb">Download</button></a>
 	</body>
 </html>
