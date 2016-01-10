@@ -42,16 +42,18 @@ var pnm_to_bin = function (p) {
 	}).map(function (i) {
 		return parseInt(i);
 	});
-	var lines = grouper(data, w*3);
-	for (var i in lines) {
-		line = lines[i];
-		lgroup = grouper(line, 3);
-		data = [];
-		for (var j in lgroup) {
-			rgb = lgroup[j];
-			data.push(rgb);
+	var lines = grouper(data, w*3),
+		i = 0;
+	while (i < lines.length) {
+		var lgroup = grouper(lines[i], 3),
+			d = [],
+			j = 0;
+		while (j < lgroup.length) {
+			d.push(lgroup[j]);
+			j++;
 		}
-		bin.push(data);
+		bin.push(d);
+		i++;
 	}
 	return bin;
 }
@@ -75,11 +77,11 @@ var imageblender = function (img) {
 		while (x < h) {
 			var i = 0;
 			while (i < 3) {
-				val = Math.floor((img[x][y][i] + img[x][w-y-1][i] + img[h-x-1][y][i] + img[h-x-1][w-y-1][i]) / 4);
+				val = Math.floor((img[x][y][i] + img[x][w+~y][i] + img[h+~x][y][i] + img[h+~x][w+~y][i]) / 4);
 				nimg[x][y][i] = val;
-				nimg[x][w-y-1][i] = val;
-				nimg[h-x-1][y][i] = val;
-				nimg[h-x-1][w-y-1][i] = val;
+				nimg[x][w+~y][i] = val;
+				nimg[h+~x][y][i] = val;
+				nimg[h+~x][w+~y][i] = val;
 				i++;
 			}
 			x++;
@@ -92,7 +94,6 @@ var imageblender = function (img) {
 var main = function (content) {
 	b = pnm_to_bin(content.split("\n"));
 	bin = imageblender(b);
-	console.log(b == bin);
 	return bin_to_pnm(bin);
 }
 
